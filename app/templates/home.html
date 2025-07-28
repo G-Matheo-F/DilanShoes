@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <div style="text-align:center; padding: 2rem;">
+    <h2>Bienvenido, {{ usuario }}</h2>
+    <a href="/inventario" class="btn">Gestionar Inventario</a>
+    <a href="/ventas" class="btn">Realizar Venta</a>
+    <a href="/logout" class="btn logout">Cerrar sesión</a>
+  </div>
+{% endblock %}
