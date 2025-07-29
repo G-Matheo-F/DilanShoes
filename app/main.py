@@ -67,8 +67,14 @@ def inventario(request: Request, db: Session = Depends(get_db), token: str = Dep
     return templates.TemplateResponse("inventario.html", {"request": request, "productos": productos})
 
 
+<<<<<<< HEAD
 @app.post("/productos/agregar")
 def agregar_producto(
+=======
+@app.post("/productos/agregar", response_class=HTMLResponse)
+def agregar_producto(
+    request: Request,
+>>>>>>> 994b299 (Sistema DilanShoes|Matheo Flores nivel 6 Analisis y Diseño de Sistemas)
     nombre: str = Form(...), 
     precio: float = Form(...), 
     cantidad: int = Form(...),
@@ -76,6 +82,7 @@ def agregar_producto(
     token: str = Depends(get_token_from_cookie)
 ):
     current_user = get_current_user(token=token, db=db)
+<<<<<<< HEAD
     producto_existente = db.query(Producto).filter(Producto.nombre == nombre).first()
     if producto_existente:
         producto_existente.cantidad += cantidad
@@ -83,12 +90,49 @@ def agregar_producto(
     else:
         nuevo = Producto(nombre=nombre, precio=precio, cantidad=cantidad)
         db.add(nuevo)
+=======
+
+    productos = db.query(Producto).all()
+
+    # Validaciones
+    if precio < 0 or cantidad < 0:
+        mensaje = "Precio y cantidad deben ser mayores o iguales a 0."
+        return templates.TemplateResponse("inventario.html", {
+            "request": request,
+            "productos": productos,
+            "mensaje": mensaje,
+            "mensaje_tipo": "error"
+        })
+
+    if precio < 40:
+        mensaje = "El precio de los zapatos debe ser mínimo $40."
+        return templates.TemplateResponse("inventario.html", {
+            "request": request,
+            "productos": productos,
+            "mensaje": mensaje,
+            "mensaje_tipo": "advertencia"
+        })
+
+    producto_existente = db.query(Producto).filter(Producto.nombre == nombre).first()
+    if producto_existente:
+        producto_existente.cantidad += cantidad
+    else:
+        nuevo = Producto(nombre=nombre, precio=precio, cantidad=cantidad)
+        db.add(nuevo)
+
+>>>>>>> 994b299 (Sistema DilanShoes|Matheo Flores nivel 6 Analisis y Diseño de Sistemas)
     db.commit()
     return RedirectResponse("/inventario", status_code=303)
 
 
+<<<<<<< HEAD
 @app.post("/productos/actualizar/{producto_id}")
 def actualizar_producto(
+=======
+@app.post("/productos/actualizar/{producto_id}", response_class=HTMLResponse)
+def actualizar_producto(
+    request: Request,
+>>>>>>> 994b299 (Sistema DilanShoes|Matheo Flores nivel 6 Analisis y Diseño de Sistemas)
     producto_id: int,
     nombre: str = Form(...),
     precio: float = Form(...),
@@ -97,6 +141,20 @@ def actualizar_producto(
     token: str = Depends(get_token_from_cookie)
 ):
     current_user = get_current_user(token=token, db=db)
+<<<<<<< HEAD
+=======
+
+    # Validación
+    if precio < 0 or stock < 0:
+        productos = db.query(Producto).all()
+        mensaje = "Precio y stock no pueden ser negativos."
+        return templates.TemplateResponse("inventario.html", {
+            "request": request,
+            "productos": productos,
+            "mensaje": mensaje
+        })
+
+>>>>>>> 994b299 (Sistema DilanShoes|Matheo Flores nivel 6 Analisis y Diseño de Sistemas)
     producto = db.query(Producto).filter(Producto.id == producto_id).first()
     if not producto:
         raise HTTPException(status_code=404, detail="Producto no encontrado")
@@ -108,6 +166,10 @@ def actualizar_producto(
     return RedirectResponse(url="/inventario", status_code=303)
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 994b299 (Sistema DilanShoes|Matheo Flores nivel 6 Analisis y Diseño de Sistemas)
 @app.post("/productos/eliminar/{producto_id}")
 def eliminar_producto(producto_id: int, db: Session = Depends(get_db), token: str = Depends(get_token_from_cookie)):
     current_user = get_current_user(token=token, db=db)
@@ -134,6 +196,14 @@ def confirmar_venta(items: dict = Body(...), db: Session = Depends(get_db), toke
     if not venta_items:
         raise HTTPException(status_code=400, detail="No hay productos en la venta")
 
+<<<<<<< HEAD
+=======
+    # Validar cantidad positiva
+    for item in venta_items:
+        if item["cantidad"] <= 0:
+            raise HTTPException(status_code=400, detail=f"La cantidad para el producto {item['nombre']} debe ser mayor a 0")
+
+>>>>>>> 994b299 (Sistema DilanShoes|Matheo Flores nivel 6 Analisis y Diseño de Sistemas)
     # Validar stock
     for item in venta_items:
         producto = db.query(Producto).filter(Producto.id == item["id"]).first()
@@ -152,6 +222,10 @@ def confirmar_venta(items: dict = Body(...), db: Session = Depends(get_db), toke
     db.commit()
     return JSONResponse(content={"msg": "Venta confirmada"})
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 994b299 (Sistema DilanShoes|Matheo Flores nivel 6 Analisis y Diseño de Sistemas)
 # --- Populares (acceso público) ---
 
 @app.get("/populares", response_class=HTMLResponse)
