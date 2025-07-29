@@ -40,7 +40,7 @@ Instalación y despliegue:
 6. Levantar la aplicación:
    uvicorn app.main:app --reload
 
-7. Acceder en el navegador a http://localhost:8000 (Vendedor adminstraodor),  http://localhost:8000/populares (Interfaz cliente comprador)
+7. Acceder en el navegador a http://localhost/ (Vendedor adminstraodor),  http://localhost/populares (Interfaz cliente comprador)
 
 Estructura del proyecto:
 
