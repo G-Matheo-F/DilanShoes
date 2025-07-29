@@ -8,13 +8,13 @@ def insertar_producto_base():
 
     if not producto_existente:
         nuevo_producto = Producto(
-            nombre="Skechers GOwalk Joy",
-            precio=65.0,
+            nombre="Botines Alisson de cuero",
+            precio=110.0,
             cantidad=12
         )
         db.add(nuevo_producto)
         db.commit()
-        print("Producto 'Skechers GOwalk Joy' insertado en la base de datos.")
+        print("Producto 'Botines Alisson de cuero' insertado en la base de datos.")
     else:
         print("El producto con id=1 ya existe en la base de datos.")
     db.close()
